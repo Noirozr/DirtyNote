@@ -28,17 +28,43 @@ view.addArrangedSubview(sbv2)
 view.subviews.forEach { (subView) -> () in
     subView.removeFromSuperview()
 }
-
+//颜色转换
 extension UIColor {
     
-    func colorWithHexString(stringToConvert: String, var alpha: Float) -> UIColor {
+    func colorWithHexString(stringToConvert: String, var alpha: CGFloat) -> UIColor {
+        //先对特殊情况进行判断
         if alpha > 1.0 || alpha < 0.0 {
             alpha = 1.0
         }
+        //去除空格
+        var cString: NSString = stringToConvert.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        //先对特殊情况进行判断
+        if cString.length != 6 {
+            return UIColor.whiteColor()
+        }
+        if cString.hasPrefix("0X") {
+            cString = cString.substringFromIndex(2)
+        }
         
+        if cString.hasPrefix("#") {
+            cString = cString.substringFromIndex(1)
+        }
         
+        var range = NSMakeRange(0, 2)
+        let rString = cString.substringWithRange(range)
+        range.location = 2
+        let gString = cString.substringWithRange(range)
+        range.location = 4
+        let bString = cString.substringWithRange(range)
         
-        return UIColor()
+        var r: UInt32 = 0
+        var g: UInt32 = 0
+        var b: UInt32 = 0
+        
+        NSScanner(string: rString as String).scanHexInt(&r)
+        NSScanner(string: gString as String).scanHexInt(&g)
+        NSScanner(string: bString as String).scanHexInt(&b)
+        return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: alpha)
     }
 }
 
