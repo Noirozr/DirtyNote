@@ -31,7 +31,7 @@ view.subviews.forEach { (subView) -> () in
 //颜色转换
 extension UIColor {
     
-    func colorWithHexString(stringToConvert: String, var alpha: CGFloat) -> UIColor {
+    func SKT_colorWithHexString(stringToConvert: String, var alpha: CGFloat) -> UIColor {
         //先对特殊情况进行判断
         if alpha > 1.0 || alpha < 0.0 {
             alpha = 1.0

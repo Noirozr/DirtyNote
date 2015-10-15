@@ -136,6 +136,27 @@ func quickSort(var arr: [Int], start: Int, end: Int) {
     quickSort(arr, start: left + 1, end: end)
 }
 
+//: Comb Sort - 梳排序
+func combSort(var arr: [Int]) -> [Int] {
+    let shrink_factor = 0.8
+    var gap = Double(arr.count), swapped = true
+    while (gap > 1 || swapped) {
+        if (gap > 1) {
+            gap *= shrink_factor
+        }
+        swapped = false
+        for (var i = 0; Int(gap) + i < arr.count; i++) {
+            if arr[i] > arr[i + Int(gap)] {
+                let tmp = arr[i]
+                arr[i] = arr[i + Int(gap)]
+                arr[i + Int(gap)] = tmp
+                swapped = true
+            }
+        }
+    }
+    return arr
+}
+
 var arr = [3, 1, 5, 2, 4]
 
 //: Test for Sort callback
@@ -143,6 +164,7 @@ selectionsort(arr)
 bubbleSort(arr)
 cocktailSort(arr)
 insertionSort(arr)
+combSort(arr)
 
 Fibonacci(6)
 
